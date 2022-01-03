@@ -14,7 +14,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/jlvihv/tgSend"
+	"github.com/jlvihv/tools/tgSend"
 )
 
 func main() {
