@@ -1,2 +1,2 @@
-go build -o bin/workFlag.exe .
-cp ./config.xml bin/
+go build -o bin/workFlag .
+cp bin/workFlag /home/vihv/App

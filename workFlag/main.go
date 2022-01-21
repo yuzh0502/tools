@@ -6,9 +6,12 @@ import (
 	"encoding/json"
 	"encoding/xml"
 	"fmt"
+	"io"
 	"io/ioutil"
 	"math/rand"
 	"os"
+	"path"
+	"path/filepath"
 	"regexp"
 	"strconv"
 	"strings"
@@ -24,6 +27,7 @@ var ab AutoBooked
 var hd header
 var fm form
 var uc urlConfig
+var configFile = "/home/vihv/Code/tools/workFlag/config.xml"
 
 func main() {
 	timeTemplate := "9 %s 8 ? * 1-5" // 每周一到周五，每个月，不指定某天，8点，何分，9秒
@@ -89,14 +93,29 @@ func initHeader() {
 
 func readConfig() {
 	fmt.Println("读取配置文件中...")
-	f, err := ioutil.ReadFile("./config.xml")
+	var configPathFile string
+	if filepath.IsAbs(configFile) {
+		configPathFile = configFile
+	} else {
+		exePath, err := getExePath()
+		if err != nil {
+			fmt.Printf("获取程序绝对路径失败，程序将退出: %s\n", err)
+			os.Exit(1)
+		}
+		configPathFile, err = filepath.Abs(exePath + "/" + configFile)
+		if err != nil {
+			fmt.Printf("获取配置文件绝对路径失败，程序将退出: %s\n", err)
+			os.Exit(1)
+		}
+	}
+	f, err := ioutil.ReadFile(configPathFile)
 	if err != nil {
-		fmt.Printf("读取配置文件错误: %s\n", err)
+		fmt.Printf("读取配置文件失败: %s\n", err)
 		return
 	}
 	err = xml.Unmarshal(f, &ab)
 	if err != nil {
-		fmt.Printf("解析xml配置文件错误: %s", err)
+		fmt.Printf("解析xml配置文件失败: %s\n", err)
 		return
 	}
 }
@@ -104,17 +123,22 @@ func readConfig() {
 func initLogger() {
 	fmt.Println("初始化日志中...")
 	logrus.SetFormatter(&logrus.TextFormatter{
-		//ForceColors:     true,
+		ForceColors:     true,
 		ForceQuote:      true,
 		TimestampFormat: "2006/01/02 15:04:05",
 		FullTimestamp:   true,
 	})
-	f, err := os.Create("auto.log")
+	exePath, err := getExePath()
+	if err != nil {
+		fmt.Printf("获取程序绝对路径失败，程序将退出: %s\n", err)
+		os.Exit(1)
+	}
+	f, err := os.Create(path.Join(exePath, "workFlag.log"))
 	if err != nil {
 		fmt.Printf("新建日志文件失败: %s\n", err)
 	}
-	//writer := io.MultiWriter(os.Stdout, f)
-	logrus.SetOutput(f)
+	writer := io.MultiWriter(os.Stdout, f)
+	logrus.SetOutput(writer)
 	logrus.SetLevel(logrus.DebugLevel)
 }
 
@@ -353,4 +377,14 @@ func getColly() *colly.Collector {
 func getRandNum(n int) int {
 	rand.Seed(time.Now().UnixNano())
 	return rand.Intn(n) + 1
+}
+
+// 获取程序所在路径
+func getExePath() (string, error) {
+	exePath, err := filepath.Abs(os.Args[0])
+	if err != nil {
+		return "", err
+	}
+	exePath = exePath[:strings.LastIndex(exePath, string(os.PathSeparator))]
+	return exePath, nil
 }
