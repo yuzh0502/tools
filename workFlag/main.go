@@ -321,7 +321,7 @@ func (u *User) out() *User {
 }
 
 func push(msg string) {
-	err := tgSend.Send("localhost:7890", 956772010, msg)
+	err := tgSend.Send("localhost:7891", 956772010, msg)
 	if err != nil {
 		logrus.Errorf("推送到 telegram 失败: %s", err)
 	}
