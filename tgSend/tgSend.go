@@ -1,9 +1,10 @@
 package tgSend
 
 import (
+	"net/http"
+
 	tgBot "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 	"golang.org/x/net/proxy"
-	"net/http"
 )
 
 func Send(proxyAddress string, chatID int64, text string) error {
