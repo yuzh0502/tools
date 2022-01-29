@@ -30,7 +30,7 @@ var uc urlConfig
 var configFile = "/home/vihv/Code/tools/workFlag/config.xml"
 
 func main() {
-	timeTemplate := "9 %s %s ? * 0-6" // 每周几到周几，每个月，不指定某天，几点，几分，9秒
+	timeTemplate := "9 %s %s ? * 1-5" // 每周几到周几，每个月，不指定某天，几点，几分，9秒
 	inTime := fmt.Sprintf(timeTemplate, strconv.Itoa(getRandNum(3)+15), "8")
 	outTime := fmt.Sprintf(timeTemplate, "31", "17")
 
