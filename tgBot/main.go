@@ -1,29 +1,7 @@
 package main
 
-import (
-	"github.com/jlvihv/tools/tools"
-	"os"
-	"path/filepath"
-)
-
-var (
-	configfile = ""
-)
+import "github.com/jlvihv/tools/tgBot/src"
 
 func main() {
-	bot, err := getNewBot()
-	if err != nil {
-		os.Exit(1)
-	}
+	src.Start()
 }
-
-func start() {
-
-}
-
-func readConfig() {
-	if !filepath.IsAbs(configfile) {
-		exePath, err := tools.GetExePath()
-	}
-}
-func initLogger() {}

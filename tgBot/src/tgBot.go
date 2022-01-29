@@ -1,4 +1,4 @@
-package main
+package src
 
 import (
 	"net/http"
@@ -8,9 +8,7 @@ import (
 )
 
 const (
-	token       = "5009245437:AAG_AYeObETfG08YhLQNKGK-PAX1mowolY4"
 	apiEndpoint = "https://api.telegram.org/bot%s/%s"
-	adminID     = "956772010"
 )
 
 func getHttpClientWithProxy(proxyAddress string) *http.Client {
@@ -21,5 +19,5 @@ func getHttpClientWithProxy(proxyAddress string) *http.Client {
 }
 
 func getNewBot() (*tgBot.BotAPI, error) {
-	return tgBot.NewBotAPIWithClient(token, apiEndpoint, getHttpClientWithProxy(proxyAddress))
+	return tgBot.NewBotAPIWithClient(tgBotConfig.TgBotConfig.Token, apiEndpoint, getHttpClientWithProxy(tgBotConfig.TgBotConfig.Proxy))
 }

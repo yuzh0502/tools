@@ -1,6 +1,7 @@
 package src
 
 import (
+	"fmt"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 	"os"
@@ -14,7 +15,12 @@ func getLogger(logFileName string) (*zap.SugaredLogger, error) {
 	}
 	core := zapcore.NewCore(encoder, writer, zapcore.DebugLevel)
 	logger := zap.New(core, zap.AddCaller())
-	defer logger.Sync()
+	defer func(logger *zap.Logger) {
+		err := logger.Sync()
+		if err != nil {
+			fmt.Printf("defer logger.Sync() error:%s\n", err)
+		}
+	}(logger)
 	return logger.Sugar(), nil
 }
 

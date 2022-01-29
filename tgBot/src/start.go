@@ -1,27 +1,42 @@
-package main
+package src
 
 import (
 	"fmt"
 	"github.com/BurntSushi/toml"
 	tools "github.com/jlvihv/tools/utils"
+	"go.uber.org/zap"
 	"os"
 	"path/filepath"
 )
 
 type TgBot struct {
+	Log         Log
+	TgBotConfig TgBotConfig
+}
+
+type Log struct {
+	LogFileName string
+}
+
+type TgBotConfig struct {
+	AdminID string
+	Proxy   string
+	Token   string
 }
 
 var (
-	configFile  = ""
+	configFile  = "../tgBot.toml"
 	tgBotConfig = TgBot{}
+	logger      *zap.SugaredLogger
 )
 
-func start() {
+func Start() {
 	readConfig()
 	initLogger()
 }
 
 func readConfig() {
+	fmt.Println("read config...")
 	if !filepath.IsAbs(configFile) {
 		exePath, err := tools.GetExePath()
 		if err != nil {
@@ -41,4 +56,13 @@ func readConfig() {
 	}
 }
 
-func initLogger() {}
+func initLogger() {
+	fmt.Println("init logger...")
+	var err error
+	logger, err = getLogger(tgBotConfig.Log.LogFileName)
+	if err != nil {
+		fmt.Printf("get logger failed: %s\n", err)
+		os.Exit(2)
+	}
+	logger.Info("logger init success")
+}
