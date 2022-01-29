@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/jlvihv/tools/tools/tools"
+	"github.com/jlvihv/tools/tools"
 	"os"
 	"path/filepath"
 )
