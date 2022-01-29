@@ -4,7 +4,7 @@ go 1.17
 
 require (
 	github.com/gocolly/colly v1.2.0
-	github.com/jlvihv/tools/tgSend v0.0.0-20220121073319-652d2e0b3852
+	github.com/jlvihv/tools/tgSend v0.0.0-20220128165522-99b9e06ba119
 	github.com/robfig/cron v1.2.0
 	github.com/sirupsen/logrus v1.8.1
 )

@@ -30,8 +30,9 @@ var uc urlConfig
 var configFile = "/home/vihv/Code/tools/workFlag/config.xml"
 
 func main() {
-	timeTemplate := "9 %s 8 ? * 1-5" // 每周一到周五，每个月，不指定某天，8点，何分，9秒
-	inTime := fmt.Sprintf(timeTemplate, strconv.Itoa(getRandNum(3)+20))
+	timeTemplate := "9 %s %s ? * 0-6" // 每周几到周几，每个月，不指定某天，几点，几分，9秒
+	inTime := fmt.Sprintf(timeTemplate, strconv.Itoa(getRandNum(3)+15), "8")
+	outTime := fmt.Sprintf(timeTemplate, "31", "17")
 
 	readConfig()
 	initLogger()
@@ -49,7 +50,6 @@ func main() {
 	}
 
 	timer := cron.New()
-	// 从后往前读，每周一到周五，每个月，不指定某天，早上8点，31分，9秒，签到
 	if err := timer.AddFunc(inTime, usersIn); err != nil {
 		logrus.Errorf("签到未执行: 创建定时任务失败: %s", err)
 	} else {
@@ -58,10 +58,10 @@ func main() {
 		push(msg)
 	}
 	// 从后往前读，每周一到周五，每个月，不指定某天，下午17点，31分，9秒，签出
-	if err := timer.AddFunc("9 31 17 ? * 1-5", usersOut); err != nil {
+	if err := timer.AddFunc(outTime, usersOut); err != nil {
 		logrus.Errorf("签出未执行: 创建定时任务失败: %s", err)
 	} else {
-		msg := "已创建签出定时任务"
+		msg := "已创建签出定时任务, 时间：" + outTime
 		logrus.Infof(msg)
 		push(msg)
 	}
@@ -345,7 +345,7 @@ func (u *User) out() *User {
 }
 
 func push(msg string) {
-	err := tgSend.Send("localhost:7891", 956772010, msg)
+	err := tgSend.Send("http://localhost:7890", 956772010, msg)
 	if err != nil {
 		logrus.Errorf("推送到 telegram 失败: %s", err)
 	}
