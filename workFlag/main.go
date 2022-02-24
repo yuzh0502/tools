@@ -164,6 +164,8 @@ func usersIn() {
 			msg := fmt.Sprintf("用户 %s: %s: %s\n", user.Username, user.msg, user.err)
 			logrus.Errorf(msg)
 			push(msg + user.result)
+			push("尝试重试1次")
+			user.login().in()
 			continue
 		}
 		user.login()
