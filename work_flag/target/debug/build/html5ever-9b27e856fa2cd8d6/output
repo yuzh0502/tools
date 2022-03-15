@@ -1,0 +1,1 @@
+cargo:rerun-if-changed=/home/vihv/.cargo/registry/src/mirrors.sjtug.sjtu.edu.cn-7a04d2510079875b/html5ever-0.25.1/src/tree_builder/rules.rs

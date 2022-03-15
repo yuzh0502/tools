@@ -1,14 +1,12 @@
-[BaseInfo]
-login_url = "http://portal.zts.com.cn/cas/login?service=http%3A%2F%2F10.55.10.13%2FCASLogin"
-user_url = "http://10.55.10.13/UserProject.do?project=itzhgl_sc"
-table_url = "http://10.55.10.13/UIProcessor?Table=vem_wb_qdqc"
-in_url = "http://10.55.10.13/OperateProcessor?operate=vem_wb_qdqc_M1&amp;Table=vem_wb_qdqc&amp;Token=%s&amp;&amp;ID=%s&amp;WindowType=1&amp;extWindow=true&amp;PopupWin=true"
-out_url = "http://10.55.10.13/OperateProcessor?operate=vem_wb_qdqc_M2&amp;Table=vem_wb_qdqc&amp;Token=%s&amp;&amp;ID=%s&amp;WindowType=1&amp;extWindow=true&amp;PopupWin=true"
+in_time = "0 0 8 ? * 1-5"
+out_time = "0 31 17 ? * 1-5"
 
 [[User]]
 username = "wb_jiangzh"
 password = "@HOmylove@"
-
-[[User]]
-username = "15618948526"
-password = "051620Hao!"
+#email = "vihv@qq.com"
+#
+#[[User]]
+#username = "15618948526"
+#password = "051620Hao!"
+#email = "764771088@qq.com"
